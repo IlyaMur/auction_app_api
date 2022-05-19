@@ -39,12 +39,6 @@ class AuthController extends Controller
      * @return void
      */
 
-
-    public function foobar()
-    {
-        dd(42);
-    }
-
     public function registered(Request $request, User $user)
     {
         return response()->json($user, 200);
