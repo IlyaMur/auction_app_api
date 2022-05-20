@@ -10,10 +10,8 @@ class MeController extends Controller
 {
     public function getMe()
     {
-        if ($user = auth()->user()) {
-            return new UserResource($user);
-        }
-
-        return response()->json(null, 401);
+        return auth()->user()
+            ? new UserResource(auth()->user())
+            : response()->json(null, 401);
     }
 }

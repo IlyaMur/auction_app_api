@@ -8,6 +8,7 @@ use App\Http\Controllers\User\SettingsController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Designs\UploadController;
 
 // Public routes
 Route::get('me', [MeController::class, 'getMe']);
@@ -20,6 +21,11 @@ Route::group([
 
     Route::put('settings/profile', [SettingsController::class, 'updateProfile']);
     Route::put('settings/password', [SettingsController::class, 'updatePassword']);
+
+    // Upload designs
+
+
+    Route::post('designs', [UploadController::class, 'upload']);
 });
 
 // Routes for guests
