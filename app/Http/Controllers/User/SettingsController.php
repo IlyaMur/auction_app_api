@@ -4,6 +4,8 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Rules\CheckSamePassword;
+use App\Rules\MatchOldPassword;
 use Illuminate\Http\Request;
 use MatanYadaev\EloquentSpatial\Objects\Point;
 
@@ -38,5 +40,13 @@ class SettingsController extends Controller
 
     public function updatePassword(Request $request)
     {
+        $request->validate([
+            'current_password' => ['required', new MatchOldPassword()],
+            'password' => ['required', 'confirmed', 'min:6', new CheckSamePassword()],
+        ]);
+
+        $request->user()->update([
+            'password' => bcrypt($request->password),
+        ]);
     }
 }
