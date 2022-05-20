@@ -48,5 +48,9 @@ class SettingsController extends Controller
         $request->user()->update([
             'password' => bcrypt($request->password),
         ]);
+
+        return response()->json([
+            'message' => 'Password updated'
+        ]);
     }
 }
