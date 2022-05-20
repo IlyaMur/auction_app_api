@@ -58,8 +58,16 @@ class LoginController extends Controller
         }
 
         throw ValidationException::withMessages([
-            $this->username() => 'Authentication failed'
+            $this->username() => 'Invalid credentials'
         ]);
+    }
 
+    public function logout()
+    {
+        $this->guard()->logout();
+
+        return response()->json([
+            'message' => 'Logged out successfully!'
+        ]);
     }
 }
