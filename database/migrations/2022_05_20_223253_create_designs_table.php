@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->string('slug')->nullable();
             $table->boolean('is_live')->default(false);
+
             $table->timestamps();
         });
     }

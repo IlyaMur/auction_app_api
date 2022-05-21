@@ -17,7 +17,9 @@ class Design extends Model
         'description',
         'slug',
         'close_to_comment',
-        'is_live'
+        'is_live',
+        'upload_successfull',
+        'disk'
     ];
 
     public function user()
