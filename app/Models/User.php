@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Models\Design;
+use App\Models\Design;
 use Laravel\Sanctum\HasApiTokens;
 use App\Notifications\VerifyEmail;
 use App\Notifications\ResetPassword;

@@ -2,8 +2,12 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Psr\Log\LogLevel;
+use Illuminate\Http\Request;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -43,8 +47,15 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (AccessDeniedHttpException $e, Request $request) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'errors' => [
+                        'message' =>
+                            'You are not authorized to access this resource'
+                    ]
+                ], 403);
+            }
         });
     }
 }

@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\Models\Design;
+use App\Models\Design;
 
 class DesignController extends Controller
 {
     public function update(Request $request, Design $design)
     {
+        $this->authorize($design);
+
         $this->validate($request, [
             'title' => ['required', "unique:designs,title,$design->id"],
             'description' => ['required', 'string', 'min:20', 'max:140'],
