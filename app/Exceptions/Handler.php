@@ -6,7 +6,9 @@ use Throwable;
 use Psr\Log\LogLevel;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class Handler extends ExceptionHandler
@@ -55,6 +57,17 @@ class Handler extends ExceptionHandler
                             'You are not authorized to access this resource'
                     ]
                 ], 403);
+            }
+        });
+
+        $this->renderable(function (NotFoundHttpException $e, Request $request) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'errors' => [
+                        'message' =>
+                            'The resource was not found in the database'
+                    ]
+                ], 404);
             }
         });
     }

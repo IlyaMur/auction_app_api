@@ -26,6 +26,7 @@ Route::group([
     // Upload designs
     Route::post('designs', [UploadController::class, 'upload']);
     Route::put('designs/{design}', [DesignController::class, 'update']);
+    Route::delete('designs/{design}', [DesignController::class, 'destroy']);
 });
 
 // Routes for guests

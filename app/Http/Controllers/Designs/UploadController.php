@@ -23,10 +23,12 @@ class UploadController extends Controller
 
         $tmp = $image->storeAs('uploads/original', $filename, 'temp');
 
-        $design = auth()->user()->designs()->create([
-            'image' => $filename,
-            'disk' => config('site.upload_disk'),
-        ]);
+        $design = auth()->user()
+            ->designs()
+            ->create([
+                'image' => $filename,
+                'disk' => config('site.upload_disk'),
+            ]);
 
         // dispatch a job to handle the image manipulation
 

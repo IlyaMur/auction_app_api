@@ -37,10 +37,10 @@ class UploadImage implements ShouldQueue
             . '/uploads/original/' . $design->image;
     }
 
-    protected function resizeAndSave($width, $height, $size)
+    protected function resizeAndStore($width, $height, $size)
     {
         $pathToSave = storage_path(
-            "uploads/$size/" . $this->filename
+            "uploads/{$size}/" . $this->filename
         );
 
         Image::make($this->originalFile)
@@ -55,7 +55,7 @@ class UploadImage implements ShouldQueue
     protected function storeFile($size, $file)
     {
         if (Storage::disk($this->disk)->put(
-            "uploads/designs/$size/" . $this->filename,
+            "uploads/designs/{$size}/" . $this->filename,
             fopen($file, 'r+')
         )) {
             File::delete($file);
@@ -71,9 +71,9 @@ class UploadImage implements ShouldQueue
     {
         try {
             // create the large image and save to tmp disk
-            $this->resizeAndSave(800, 600, 'large');
+            $this->resizeAndStore(800, 600, 'large');
             // create the thumbnail
-            $this->resizeAndSave(250, 200, 'thumbnail');
+            $this->resizeAndStore(250, 200, 'thumbnail');
             // save the original
             $this->storeFile('original', $this->originalFile);
 

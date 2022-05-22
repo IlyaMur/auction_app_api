@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Design;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\Design;
+use App\Http\Resources\DesignResource;
+use Illuminate\Support\Facades\Storage;
 
 class DesignController extends Controller
 {
@@ -15,6 +17,7 @@ class DesignController extends Controller
         $this->validate($request, [
             'title' => ['required', "unique:designs,title,$design->id"],
             'description' => ['required', 'string', 'min:20', 'max:140'],
+            'tags' => ['required', ]
         ]);
 
         $design->update([
@@ -24,6 +27,29 @@ class DesignController extends Controller
             'is_live' => !$design->upload_successful ? false : $request->is_live
         ]);
 
-        return response()->json($design);
+        // apply the tags
+        $design->retag($request->tags);
+
+        return new DesignResource($design);
+    }
+
+    public function destroy(Request $request, Design $design)
+    {
+        $this->authorize($design);
+
+        foreach (['thumbnail', 'large', 'original'] as $size) {
+            $storage = Storage::disk($design->disk);
+            $path = "uploads/designs/{$size}/{$design->image}";
+
+            if ($storage->exists($path)) {
+                $storage->delete($path);
+            }
+        }
+
+        $design->delete();
+
+        return response()->json([
+            'message' => 'Record deleted'
+        ]);
     }
 }
