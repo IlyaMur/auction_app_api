@@ -1,14 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DesignController;
 use App\Http\Controllers\User\MeController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\User\SettingsController;
+use App\Http\Controllers\Designs\UploadController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Designs\UploadController;
 
 // Public routes
 Route::get('me', [MeController::class, 'getMe']);
@@ -23,9 +24,8 @@ Route::group([
     Route::put('settings/password', [SettingsController::class, 'updatePassword']);
 
     // Upload designs
-
-
     Route::post('designs', [UploadController::class, 'upload']);
+    Route::put('designs/{design}', [DesignController::class, 'update']);
 });
 
 // Routes for guests

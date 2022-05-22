@@ -71,9 +71,9 @@ class UploadImage implements ShouldQueue
         try {
             // create the large image and save to tmp disk
             $this->resizeAndSave(800, 600, 'large');
-            // create the thumbnail image
+            // create the thumbnail
             $this->resizeAndSave(250, 200, 'thumbnail');
-            // save the original image
+            // save the original
             $this->storeFile('original', $this->originalFile);
 
             // Update the db record
