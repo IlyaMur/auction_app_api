@@ -34,7 +34,7 @@ class DesignController extends Controller
         $this->authorize($design);
 
         $this->validate($request, [
-            'title' => ['required', "unique:designs,title,$design->id"],
+            'title' => ['required', "unique:designs,title,{$design->id}"],
             'description' => ['required', 'string', 'min:20', 'max:140'],
             'tags' => ['required',]
         ]);
@@ -60,10 +60,10 @@ class DesignController extends Controller
 
         foreach (['thumbnail', 'large', 'original'] as $size) {
             $storage = Storage::disk($design->disk);
-            $path = "uploads/designs/{$size}/{$design->image}";
+            $file = "uploads/designs/{$size}/{$design->image}";
 
-            if ($storage->exists($path)) {
-                $storage->delete($path);
+            if ($storage->exists($file)) {
+                $storage->delete($file);
             }
         }
 
