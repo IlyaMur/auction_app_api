@@ -2,10 +2,12 @@
 
 namespace App\Repositories\Eloquent;
 
+use Illuminate\Support\Arr;
 use App\Exceptions\ModelNotDefined;
 use App\Repositories\Contracts\BaseRepositoryInterface;
+use App\Repositories\Contracts\Criteria\CriteriaInterface;
 
-abstract class BaseRepository implements BaseRepositoryInterface
+abstract class BaseRepository implements BaseRepositoryInterface, CriteriaInterface
 {
     protected $model;
 
@@ -14,9 +16,18 @@ abstract class BaseRepository implements BaseRepositoryInterface
         $this->model = $this->getModelClass();
     }
 
+    public function withCriteria(...$criteria)
+    {
+        foreach (Arr::flatten($criteria) as $criterion) {
+            $this->model = $criterion->apply($this->model);
+        }
+
+        return $this;
+    }
+
     public function all()
     {
-        return $this->model->all();
+        return $this->model->get();
     }
 
     protected function getModelClass()
