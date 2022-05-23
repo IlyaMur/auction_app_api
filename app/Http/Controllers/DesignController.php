@@ -7,12 +7,17 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Resources\DesignResource;
 use Illuminate\Support\Facades\Storage;
+use App\Repositories\Contracts\DesignInterface;
 
 class DesignController extends Controller
 {
+    public function __construct(protected DesignInterface $designs)
+    {
+    }
+
     public function index()
     {
-        $designs = Design::all();
+        $designs = $this->designs->all();
 
         return DesignResource::collection($designs);
     }

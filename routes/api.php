@@ -2,27 +2,30 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DesignController;
-use App\Http\Controllers\User\MeController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\User\SettingsController;
-use App\Http\Controllers\Designs\UploadController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\User\MeController;
+use App\Http\Controllers\User\SettingsController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Designs\UploadController;
 
-// Public routes
+/**
+ * Public routes
+ */
 
 // Get current auth user
 Route::get('me', [MeController::class, 'getMe']);
 
-// Get Designs
 Route::get('designs', [DesignController::class, 'index']);
-// Get Users
 Route::get('users', [UserController::class, 'index']);
 
-// Routes for auth users only
+/**
+ * Routes for auth users only
+ */
+
 Route::group([
     'middleware' => ['auth:api'],
 ], function () {
@@ -31,13 +34,16 @@ Route::group([
     Route::put('settings/profile', [SettingsController::class, 'updateProfile']);
     Route::put('settings/password', [SettingsController::class, 'updatePassword']);
 
-    // Upload designs
+    // Design resource operations
     Route::post('designs', [UploadController::class, 'upload']);
     Route::put('designs/{design}', [DesignController::class, 'update']);
     Route::delete('designs/{design}', [DesignController::class, 'destroy']);
 });
 
-// Routes for guests
+/**
+ * Routes for guests
+ */
+
 Route::group([
     'middleware' => ['guest:api'],
 ], function () {
