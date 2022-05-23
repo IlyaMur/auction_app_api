@@ -8,10 +8,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use App\Repositories\Contracts\UserInterface;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
 class AuthController extends Controller
 {
+    public function __construct(protected UserInterface $users)
+    {
+    }
 
     use RegistersUsers;
 
@@ -44,7 +48,7 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        return $this->users->create([
             'name' => $data['name'],
             'username' => $data['username'],
             'email' => $data['email'],

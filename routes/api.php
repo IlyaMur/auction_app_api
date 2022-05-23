@@ -20,6 +20,8 @@ use App\Http\Controllers\Designs\UploadController;
 Route::get('me', [MeController::class, 'getMe']);
 
 Route::get('designs', [DesignController::class, 'index']);
+Route::get('designs/{id}', [DesignController::class, 'findDesign']);
+
 Route::get('users', [UserController::class, 'index']);
 
 /**

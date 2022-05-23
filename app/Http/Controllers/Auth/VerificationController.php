@@ -6,22 +6,17 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Verified;
+use App\Providers\RouteServiceProvider;
+use App\Repositories\Contracts\UserInterface;
 
 class VerificationController extends Controller
 {
 
     // use VerifiesEmails;
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function __construct(protected UserInterface $users)
     {
-        // $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
 
@@ -61,7 +56,7 @@ class VerificationController extends Controller
             'email' => ['email', 'required']
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $user = $this->users->findWhereFirst('email', $request->email);
 
         if (!$user) {
             return response()->json(['errors' => [
