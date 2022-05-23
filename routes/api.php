@@ -10,9 +10,17 @@ use App\Http\Controllers\Designs\UploadController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\User\UserController;
 
 // Public routes
+
+// Get current auth user
 Route::get('me', [MeController::class, 'getMe']);
+
+// Get Designs
+Route::get('designs', [DesignController::class, 'index']);
+// Get Users
+Route::get('users', [UserController::class, 'index']);
 
 // Routes for auth users only
 Route::group([

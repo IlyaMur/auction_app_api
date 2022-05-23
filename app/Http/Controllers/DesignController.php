@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Storage;
 
 class DesignController extends Controller
 {
+    public function index()
+    {
+        $designs = Design::all();
+
+        return DesignResource::collection($designs);
+    }
+
     public function update(Request $request, Design $design)
     {
         $this->authorize($design);
@@ -17,14 +24,14 @@ class DesignController extends Controller
         $this->validate($request, [
             'title' => ['required', "unique:designs,title,$design->id"],
             'description' => ['required', 'string', 'min:20', 'max:140'],
-            'tags' => ['required', ]
+            'tags' => ['required',]
         ]);
 
         $design->update([
             'title' => $request->title,
             'description' => $request->description,
             'slug' => Str::slug($request->title),
-            'is_live' => !$design->upload_successful ? false : $request->is_live
+            'is_live' => $design->upload_successful ? $request->is_live : false
         ]);
 
         // apply the tags
