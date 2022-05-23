@@ -2,7 +2,9 @@
 
 namespace App\Repositories\Eloquent\Criteria;
 
-class IsLive
+use App\Repositories\Contracts\Criteria\CriterionInterface;
+
+class IsLive implements CriterionInterface
 {
     public function apply($model)
     {
