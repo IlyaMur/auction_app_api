@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Throwable;
 use Psr\Log\LogLevel;
 use Illuminate\Http\Request;
+use App\Exceptions\ModelNotDefined;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -68,6 +69,17 @@ class Handler extends ExceptionHandler
                             'The resource was not found in the database'
                     ]
                 ], 404);
+            }
+        });
+
+        $this->renderable(function (ModelNotDefined $e, Request $request) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'errors' => [
+                        'message' =>
+                            'No model defined'
+                    ]
+                ], 500);
             }
         });
     }
