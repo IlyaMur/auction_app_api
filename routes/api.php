@@ -16,20 +16,17 @@ use App\Http\Controllers\Designs\UploadController;
 /**
  * Public routes
  */
-
 // Get current auth user
 Route::get('me', [MeController::class, 'getMe']);
 
 Route::get('designs', [DesignController::class, 'index']);
 Route::get('designs/{id}', [DesignController::class, 'findDesign']);
 
-
 Route::get('users', [UserController::class, 'index']);
 
 /**
  * Routes for auth users only
  */
-
 Route::group([
     'middleware' => ['auth:api'],
 ], function () {
@@ -49,8 +46,8 @@ Route::group([
     Route::delete('comments/{id}', [CommentController::class, 'destroy']);
 
     // Likes and Unlikes
-
     Route::post('designs/{id}/like', [DesignController::class, 'like']);
+    Route::get('designs/{id}/liked', [DesignController::class, 'checkIfUserHasLiked']);
 });
 
 /**
