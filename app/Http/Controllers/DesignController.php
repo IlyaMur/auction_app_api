@@ -6,9 +6,8 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Resources\DesignResource;
 use Illuminate\Support\Facades\Storage;
-use App\Repositories\Eloquent\Criteria\IsLive;
 use App\Repositories\Contracts\DesignInterface;
-use App\Repositories\Eloquent\Criteria\ForUser;
+use App\Repositories\Eloquent\Criteria\EagerLoad;
 use App\Repositories\Eloquent\Criteria\LatestFirst;
 
 class DesignController extends Controller
@@ -19,9 +18,11 @@ class DesignController extends Controller
 
     public function index()
     {
-        $designs = $this
-            ->designs
-            ->withCriteria(new LatestFirst(), new IsLive())
+        $designs = $this->designs
+            ->withCriteria(
+                new LatestFirst(),
+                new EagerLoad(['user', 'comments'])
+            )
             ->all();
 
         return DesignResource::collection($designs);

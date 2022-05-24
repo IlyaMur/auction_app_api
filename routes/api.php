@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Designs\CommentController;
 use App\Http\Controllers\User\MeController;
 use App\Http\Controllers\User\SettingsController;
 use App\Http\Controllers\User\UserController;
@@ -21,6 +22,7 @@ Route::get('me', [MeController::class, 'getMe']);
 
 Route::get('designs', [DesignController::class, 'index']);
 Route::get('designs/{id}', [DesignController::class, 'findDesign']);
+
 
 Route::get('users', [UserController::class, 'index']);
 
@@ -40,6 +42,10 @@ Route::group([
     Route::post('designs', [UploadController::class, 'upload']);
     Route::put('designs/{design}', [DesignController::class, 'update']);
     Route::delete('designs/{design}', [DesignController::class, 'destroy']);
+
+    Route::post('designs/{id}/comments', [CommentController::class, 'store']);
+    Route::put('comments/{id}', [CommentController::class, 'update']);
+    Route::delete('comments/{id}', [CommentController::class, 'destroy']);
 });
 
 /**

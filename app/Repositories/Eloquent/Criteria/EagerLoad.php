@@ -2,12 +2,16 @@
 
 namespace App\Repositories\Eloquent\Criteria;
 
+use Illuminate\Support\Arr;
 use App\Repositories\Contracts\Criteria\CriterionInterface;
 
 class EagerLoad implements CriterionInterface
 {
-    public function __construct(protected $relationships)
+    protected $relationships;
+
+    public function __construct(...$relationships)
     {
+        $this->relationships = Arr::flatten($relationships);
     }
 
     public function apply($model)

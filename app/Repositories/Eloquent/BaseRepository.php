@@ -41,9 +41,7 @@ abstract class BaseRepository implements BaseRepositoryInterface, CriteriaInterf
 
     public function find($id)
     {
-        $result = $this->model->findOrFail($id);
-
-        return $result;
+        return $this->model->findOrFail($id);
     }
 
     public function findWhere($column, $value)
@@ -53,7 +51,9 @@ abstract class BaseRepository implements BaseRepositoryInterface, CriteriaInterf
 
     public function findWhereFirst($column, $value)
     {
-        return $this->model->where($column, $value)->firstOrFail();
+        return $this->model
+            ->where($column, $value)
+            ->firstOrFail();
     }
 
     public function paginate($perPage = 10)
@@ -68,9 +68,10 @@ abstract class BaseRepository implements BaseRepositoryInterface, CriteriaInterf
 
     public function update($id, array $data)
     {
-        $record = $this->find($id);
-        $record->update($data);
-        return $record;
+        $comment = $this->find($id);
+        $comment->update($data);
+
+        return $comment;
     }
 
     public function delete($id)

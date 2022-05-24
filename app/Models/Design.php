@@ -29,6 +29,12 @@ class Design extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable')
+            ->orderBy('created_at', 'asc');
+    }
+
     public function getImagesAttribute()
     {
         return [
@@ -37,6 +43,7 @@ class Design extends Model
             'original' => $this->getImagePath('original'),
         ];
     }
+
 
     protected function getImagePath($size)
     {
