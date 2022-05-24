@@ -54,6 +54,44 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         'location' => Point::class,
     ];
 
+    /**
+     * Get all of the comments for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * Get all of the teams for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function teams(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Team::class)->withTimeStamps();
+    }
+
+    /**
+     * Get all of the teams owned by the User
+     */
+    public function ownedTeams()
+    {
+        return $this->teams()->where('owner_id', $this->id);
+    }
+
+    /**
+     * Check if the User is owner of the team
+     *
+     * @return bool
+     */
+    public function isOwnerOfTeam($team)
+    {
+        return $team->owner_id === $this->id;
+    }
+
     public function sendEmailVerificationNotification()
     {
         $this->notify(new VerifyEmail);
@@ -87,15 +125,5 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function designs()
     {
         return $this->hasMany(Design::class);
-    }
-
-    /**
-     * Get all of the comments for the User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(Comment::class);
     }
 }
