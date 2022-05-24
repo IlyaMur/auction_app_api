@@ -21,6 +21,7 @@ class DesignResource extends JsonResource
             'comments' => CommentResource::collection(
                 $this->whenLoaded('comments')
             ),
+            'likes_count' => $this->likes()->count(),
             'title' => $this->title,
             'slug' => $this->slug,
             'images' => $this->images,
