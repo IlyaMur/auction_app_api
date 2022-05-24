@@ -21,7 +21,7 @@ class DesignController extends Controller
     {
         $designs = $this
             ->designs
-            ->withCriteria(new LatestFirst(), new IsLive(), new ForUser(1))
+            ->withCriteria(new LatestFirst(), new IsLive())
             ->all();
 
         return DesignResource::collection($designs);
