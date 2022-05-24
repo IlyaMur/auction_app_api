@@ -43,9 +43,14 @@ Route::group([
     Route::put('designs/{design}', [DesignController::class, 'update']);
     Route::delete('designs/{design}', [DesignController::class, 'destroy']);
 
+    // Comments
     Route::post('designs/{id}/comments', [CommentController::class, 'store']);
     Route::put('comments/{id}', [CommentController::class, 'update']);
     Route::delete('comments/{id}', [CommentController::class, 'destroy']);
+
+    // Likes and Unlikes
+
+    Route::post('designs/{id}/like', [DesignController::class, 'like']);
 });
 
 /**

@@ -79,4 +79,11 @@ class DesignController extends Controller
     {
         return new DesignResource($this->designs->find($id));
     }
+
+    public function like($id)
+    {
+        $this->designs->like($id);
+
+        return response()->json(['message' => "Successful"]);
+    }
 }

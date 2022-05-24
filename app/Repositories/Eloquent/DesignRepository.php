@@ -24,4 +24,13 @@ class DesignRepository extends BaseRepository implements DesignInterface
             ->comments()
             ->create($data);
     }
+
+    public function like($id)
+    {
+        $design = $this->model->findOrFail($id);
+
+        $design->islikedByUser(auth()->id())
+            ? $design->unlike()
+            : $design->like();
+    }
 }
