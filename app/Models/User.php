@@ -75,6 +75,16 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     }
 
     /**
+     * Get all of the invitations for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function invitations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Invitation::class, 'recipient_email', 'email');
+    }
+
+    /**
      * Get all of the teams owned by the User
      */
     public function ownedTeams()

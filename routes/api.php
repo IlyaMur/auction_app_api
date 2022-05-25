@@ -11,6 +11,7 @@ use App\Http\Controllers\User\SettingsController;
 use App\Http\Controllers\Designs\UploadController;
 use App\Http\Controllers\Designs\CommentController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\Teams\InvitationsController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
@@ -61,6 +62,14 @@ Route::group([
     Route::get('users/teams/', [TeamsController::class, 'fetchUserTeams']);
     Route::put('teams/{id}', [TeamsController::class, 'update']);
     Route::delete('teams/{id}', [TeamsController::class, 'destroy']);
+
+    // Invitations
+    Route::post('invitations/{teamId}', [InvitationsController::class, 'invite']);
+    Route::post('invitations/{id}/resend', [InvitationsController::class, 'resend']);
+    Route::post('invitations/{id}/respond', [InvitationsController::class, 'respond']);
+    Route::delete('invitations/{id}', [InvitationsController::class, 'destroy']);
+
+
 });
 
 /**

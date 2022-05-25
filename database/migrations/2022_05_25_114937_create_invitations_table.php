@@ -15,6 +15,18 @@ return new class extends Migration
     {
         Schema::create('invitations', function (Blueprint $table) {
             $table->id();
+
+            $table->foreignId('team_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->foreignId('sender_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
+
+            $table->string('recipient_email')->index();
+            $table->string('token');
+
             $table->timestamps();
         });
     }

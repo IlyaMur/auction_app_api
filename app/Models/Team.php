@@ -63,6 +63,28 @@ class Team extends Model
     }
 
     /**
+     * Get all of the invitations for the Team
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function invitations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Invitation::class);
+    }
+
+    /**
+     * Check if the Team has pending invitations
+     *
+     * @return void
+     */
+    public function hasPendingInvite($email)
+    {
+        return (bool) $this->invitations()
+            ->where('recipient_email', $email)
+            ->count();
+    }
+
+    /**
      * Check if the Team has particular User
      *
      * @return bool

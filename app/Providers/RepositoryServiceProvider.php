@@ -11,6 +11,8 @@ use App\Repositories\Contracts\DesignInterface;
 use App\Repositories\Eloquent\DesignRepository;
 use App\Repositories\Contracts\CommentInterface;
 use App\Repositories\Eloquent\CommentRepository;
+use App\Repositories\Contracts\InvitationInterface;
+use App\Repositories\Eloquent\InvitationRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -31,9 +33,12 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Repository pattern implementation
         $this->app->bind(DesignInterface::class, DesignRepository::class);
         $this->app->bind(UserInterface::class, UserRepository::class);
         $this->app->bind(CommentInterface::class, CommentRepository::class);
         $this->app->bind(TeamInterface::class, TeamRepository::class);
+        $this->app->bind(TeamInterface::class, TeamRepository::class);
+        $this->app->bind(InvitationInterface::class, InvitationRepository::class);
     }
 }
