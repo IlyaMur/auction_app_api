@@ -10,5 +10,26 @@ class InvitationsController extends Controller
 {
     public function __construct(protected InvitationInterface $invitation)
     {
+
+    }
+
+    public function invite(Request $request, $teamId)
+    {
+
+    }
+
+    public function resend($id)
+    {
+
+    }
+
+    public function respond(Request $request, $teamId)
+    {
+
+    }
+
+    public function destroy()
+    {
+
     }
 }
