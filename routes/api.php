@@ -24,14 +24,18 @@ Route::get('designs/{id}', [DesignController::class, 'findDesign']);
 
 Route::get('users', [UserController::class, 'index']);
 
+Route::get('teams/slug/{slug}', [TeamsController::class, 'findBySlug']);
+
 /**
  * Routes for auth users only
  */
 Route::group([
     'middleware' => ['auth:api'],
 ], function () {
+    // Auth
     Route::post('logout', [LoginController::class, 'logout']);
 
+    // User's settings
     Route::put('settings/profile', [SettingsController::class, 'updateProfile']);
     Route::put('settings/password', [SettingsController::class, 'updatePassword']);
 
@@ -48,6 +52,14 @@ Route::group([
     // Likes and Unlikes
     Route::post('designs/{id}/like', [DesignController::class, 'like']);
     Route::get('designs/{id}/liked', [DesignController::class, 'checkIfUserHasLiked']);
+
+    // Teams
+    Route::post('teams', [TeamsController::class, 'store']);
+    Route::get('teams/{id}', [TeamsController::class, 'findById']);
+    Route::get('teams/', [TeamsController::class, 'index']);
+    Route::get('users/teams/', [TeamsController::class, 'fetchUserTeams']);
+    Route::put('teams/{id}', [TeamsController::class, 'update']);
+    Route::delete('teams/{id}', [TeamsController::class, 'destroy']);
 });
 
 /**
@@ -57,12 +69,15 @@ Route::group([
 Route::group([
     'middleware' => ['guest:api'],
 ], function () {
+    // Auth
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [LoginController::class, 'login']);
 
+    // New user's verification
     Route::post('verification/verify/{user}', [VerificationController::class, 'verify'])->name('verification.verify');
     Route::post('verification/resend', [VerificationController::class, 'resend']);
 
+    // Password
     Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
     Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.reset');
 });
