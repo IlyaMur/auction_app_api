@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Http\Resources\UserResource;
+use App\Http\Resources\DesignResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TeamResource extends JsonResource
@@ -22,6 +23,7 @@ class TeamResource extends JsonResource
             'slug' => $this->slug,
             'owner' => new UserResource($this->owner),
             'member' => UserResource::collection($this->members),
+            'designs' => DesignResource::collection($this->designs),
         ];
     }
 }
