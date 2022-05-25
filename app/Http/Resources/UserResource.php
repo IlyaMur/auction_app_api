@@ -23,7 +23,7 @@ class UserResource extends JsonResource
                 'created_at_human' => $this->created_at->diffForHumans(),
                 'created_at' => $this->created_at,
             ],
-            'designs' => $this->designs,
+            'designs' => DesignResource::collection($this->whenLoaded('designs')),
             'formatted_address' => $this->formatted_address,
             'tagline' => $this->tagline,
             'about' => $this->about,

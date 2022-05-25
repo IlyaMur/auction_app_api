@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Teams;
 
+use App\Models\Team;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TeamResource;
 use App\Repositories\Contracts\TeamInterface;
 
 class TeamsController extends Controller
 {
-    public function __construct(protected TeamInterface $team)
+    public function __construct(protected TeamInterface $teams)
     {
     }
     /**
@@ -39,7 +42,18 @@ class TeamsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => ['required', 'string', 'max:80', 'unique:teams,name'],
+        ]);
+
+        // create team in the db
+        $team = $this->teams->create([
+            'owner_id' => auth()->id(),
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
+        ]);
+
+        return new TeamResource($team);
     }
 
     /**
@@ -65,6 +79,19 @@ class TeamsController extends Controller
     }
 
     /**
+     * Find team by the id.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function findById($id)
+    {
+        $team = $this->teams->find($id);
+
+        return new TeamResource($team);
+    }
+
+    /**
      * Find team by the slug.
      *
      * @param  int  $id
@@ -76,13 +103,14 @@ class TeamsController extends Controller
     }
 
     /**
-     * Find team by the slug.
+     * Fetch teams where current user is a member.
      *
      * @return \Illuminate\Http\Response
      */
     public function fetchUserTeams()
     {
-        //
+        $teams = $this->teams->fetchUserTeams();
+        return TeamResource::collection($teams);
     }
 
     /**
@@ -94,7 +122,20 @@ class TeamsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $team = $this->teams->find($id);
+
+        $this->authorize($team);
+
+        $this->validate($request, [
+            'name' => ['required', 'string', 'max:80', "unique:teams,name,{$id}"]
+        ]);
+
+        $team = $this->teams->update($id, [
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
+        ]);
+
+        return new TeamResource($team);
     }
 
     /**

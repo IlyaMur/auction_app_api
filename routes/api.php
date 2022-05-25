@@ -2,16 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DesignController;
+use App\Http\Controllers\User\MeController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Teams\TeamsController;
+use App\Http\Controllers\User\SettingsController;
+use App\Http\Controllers\Designs\UploadController;
+use App\Http\Controllers\Designs\CommentController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Designs\CommentController;
-use App\Http\Controllers\User\MeController;
-use App\Http\Controllers\User\SettingsController;
-use App\Http\Controllers\User\UserController;
-use App\Http\Controllers\Designs\UploadController;
 
 /**
  * Public routes

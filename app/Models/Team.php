@@ -15,6 +15,21 @@ class Team extends Model
         'slug',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        // add current user as team member, when team was created
+        static::created(function ($team) {
+            $team->members->attach(auth()->user());
+        });
+
+        // delete all records from the pivot table when team was deleted
+        static::deleting(function ($team) {
+            $team->members->sync([]);
+        });
+    }
+
     /**
      * Get the owner that owns the Team
      *
