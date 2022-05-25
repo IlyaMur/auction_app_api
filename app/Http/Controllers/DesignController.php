@@ -42,6 +42,7 @@ class DesignController extends Controller
         ]);
 
         $design = $this->designs->update($id, [
+            'team_id' => $request->team,
             'title' => $request->title,
             'description' => $request->description,
             'slug' => Str::slug($request->title),

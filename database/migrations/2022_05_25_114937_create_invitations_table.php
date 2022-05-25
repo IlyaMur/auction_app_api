@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('designs', function (Blueprint $table) {
-            $table->foreignId('team_id')
-                ->nullable()
-                ->constrained();
+        Schema::create('invitations', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
         });
     }
 
@@ -27,8 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('designs', function (Blueprint $table) {
-            $table->dropColumn('team_id');
-        });
+        Schema::dropIfExists('invitations');
     }
 };

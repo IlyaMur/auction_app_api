@@ -26,15 +26,35 @@ class Design extends Model
         'team_id'
     ];
 
-    public function user()
+    /**
+     * Get the user that owns the Design
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function comments()
+    /**
+     * Get all of the comments for the Design
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function comments(): \Illuminate\Database\Eloquent\Relations\MorphMany
     {
         return $this->morphMany(Comment::class, 'commentable')
             ->orderBy('created_at', 'asc');
+    }
+
+    /**
+     * Get the team that owns the Design
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function team(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Team::class);
     }
 
     public function getImagesAttribute()
@@ -45,7 +65,6 @@ class Design extends Model
             'original' => $this->getImagePath('original'),
         ];
     }
-
 
     protected function getImagePath($size)
     {

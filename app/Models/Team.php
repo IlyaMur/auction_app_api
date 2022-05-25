@@ -21,7 +21,8 @@ class Team extends Model
 
         // add current user as team member, when team was created
         static::created(function ($team) {
-            $team->members()->attach(auth()->user());
+            $team->members()
+                ->attach(auth()->user());
         });
 
         // delete all records from the pivot table when team was deleted
@@ -47,7 +48,8 @@ class Team extends Model
      */
     public function members(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(User::class)->withTimestamps();
+        return $this->belongsToMany(User::class)
+            ->withTimestamps();
     }
 
     /**

@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\TeamResource;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\CommentResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class DesignResource extends JsonResource
@@ -39,6 +41,10 @@ class DesignResource extends JsonResource
                 'updated_at_human' => $this->updated_at->diffForHumans(),
                 'updated_at' => $this->updated_at,
             ],
+            'team' => $this->team ? [
+                'id' => $this->team->id,
+                'name' => $this->team->name,
+            ] : null,
         ];
     }
 }
