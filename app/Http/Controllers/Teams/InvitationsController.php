@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Teams;
 
+use App\Models\Team;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
@@ -15,7 +16,7 @@ class InvitationsController extends Controller
     public function __construct(
         protected InvitationInterface $invitations,
         protected TeamInterface $teams,
-        protected UserInterface $user
+        protected UserInterface $users
     ) {
     }
 

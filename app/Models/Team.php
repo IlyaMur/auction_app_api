@@ -27,7 +27,7 @@ class Team extends Model
 
         // delete all records from the pivot table when team was deleted
         static::deleting(function ($team) {
-            $team->members->sync([]);
+            $team->members()->sync([]);
         });
     }
 

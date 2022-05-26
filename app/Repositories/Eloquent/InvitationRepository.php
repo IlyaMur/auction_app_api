@@ -3,8 +3,8 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Invitation;
-use App\Repositories\Eloquent\BaseRepository;
 use App\Repositories\Contracts\InvitationInterface;
+use App\Repositories\Eloquent\BaseRepository;
 
 class InvitationRepository extends BaseRepository implements InvitationInterface
 {
