@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Invitation;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -16,9 +17,10 @@ class SendInvitationToJoinTeam extends Mailable
      *
      * @return void
      */
-    public function __construct()
-    {
-        //
+    public function __construct(
+        public Invitation $invitation,
+        public bool $isUserExists,
+    ) {
     }
 
     /**
@@ -28,6 +30,21 @@ class SendInvitationToJoinTeam extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.invitations.invite-new-user');
+        if ($this->isUserExists) {
+            return $this->markdown('emails.invitations.invite-existing-user')
+                ->subject("Invitation to join team {$this->invitation->team->name}")
+                ->with([
+                    'invitation' => $this->invitation,
+                    'url' => config('app.client_url') . '/settings/teams'
+                ]);
+        }
+
+        return $this->markdown('emails.invitations.invite-new-user')
+            ->subject("Invitation to join team {$this->invitation->team->name}")
+            ->with([
+                'invitation' => $this->invitation,
+                'url' => config('app.client_url')
+                . "/register?invitation={$this->invitation->recipient_email}"
+            ]);
     }
 }

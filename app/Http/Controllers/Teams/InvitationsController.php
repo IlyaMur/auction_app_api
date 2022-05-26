@@ -13,7 +13,7 @@ use App\Repositories\Contracts\InvitationInterface;
 class InvitationsController extends Controller
 {
     public function __construct(
-        protected InvitationInterface $invitation,
+        protected InvitationInterface $invitations,
         protected TeamInterface $teams,
         protected UserInterface $user
     ) {
@@ -23,22 +23,18 @@ class InvitationsController extends Controller
     {
         $team = $this->teams->find($teamId);
 
-        $this->validate($request, [
-            'email' => ['required', 'email']
-        ]);
+        $this->validate($request, ['email' => ['required', 'email']]);
 
         // check if the user owns the team
         if (!auth()->user()->isOwnerOfTeam($team)) {
             return response()->json(['email' => 'You are not the team owner'], 401);
         }
-
         // check if the email has pending invitation
         if ($team->hasPendingInvite($request->email)) {
             return response()->json(['email' => 'Email already has a pending invite'], 422);
         }
 
         $recipient = $this->users->findByEmail($request->email);
-
         // if recipient does not exist, send invite to join the team
         if (!$recipient) {
             $this->createInvitation(false, $team, $request->email);
@@ -51,6 +47,7 @@ class InvitationsController extends Controller
         }
 
         $this->createInvitation(true, $team, $request->email);
+        return response()->json(['message' => 'Invitation sent to user']);
     }
 
     public function resend($id)
