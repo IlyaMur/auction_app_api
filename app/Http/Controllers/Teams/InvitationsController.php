@@ -67,8 +67,29 @@ class InvitationsController extends Controller
         return response()->json(['message' => 'Invitation resent']);
     }
 
-    public function respond(Request $request, $teamId)
+    public function respond(Request $request, $id)
     {
+        $this->validate($request, [
+            'token' => ['required'],
+            'decision' => ['required']
+        ]);
+
+        $invitation = $this->invitations->find($id);
+
+        if ($invitation->recipient_email !== auth()->user()->email) {
+            return response()->json(['message' => 'This is not your invitation'], 401);
+        }
+
+        if ($invitation->token !== $request->token) {
+            return response()->json(['message' => 'Invalid Token'], 401);
+        }
+
+        if ($request->decision !== 'deny') {
+            $this->invitations->addUserToTeam($invitation->team, auth()->id());
+        }
+
+        $invitation->delete();
+        return response()->json(['message' => 'Successful']);
     }
 
     public function destroy()
