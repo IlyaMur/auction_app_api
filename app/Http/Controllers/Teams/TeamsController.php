@@ -8,11 +8,16 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TeamResource;
 use App\Repositories\Contracts\TeamInterface;
+use App\Repositories\Contracts\UserInterface;
+use App\Repositories\Contracts\InvitationInterface;
 
 class TeamsController extends Controller
 {
-    public function __construct(protected TeamInterface $teams)
-    {
+    public function __construct(
+        protected TeamInterface $teams,
+        protected UserInterface $users,
+        protected InvitationInterface $invitations
+    ) {
     }
     /**
      * Display a listing of the resource.
@@ -150,5 +155,27 @@ class TeamsController extends Controller
         $this->teams->delete($id);
 
         return response()->json(['message' => 'Team was deleted']);
+    }
+
+    /**
+     * Remove the user from the team.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function removeFromTeam($teamId, $userId)
+    {
+        $team = $this->teams->find($teamId);
+
+        if ($this->users->find($userId)->isOwnerOfTeam($team)) {
+            return response()->json(['message' => 'You are the team owner'], 401);
+        }
+
+        if (!auth()->user()->isOwnerOfTeam($team) && auth()->id() != $userId) {
+            return response()->json(['message' => 'You can\'t do this'], 401);
+        }
+
+        $this->invitations->removeUserFromTeam($team, $userId);
+        return response()->json(['message' => 'Success']);
     }
 }

@@ -62,6 +62,7 @@ Route::group([
     Route::get('users/teams/', [TeamsController::class, 'fetchUserTeams']);
     Route::put('teams/{id}', [TeamsController::class, 'update']);
     Route::delete('teams/{id}', [TeamsController::class, 'destroy']);
+    Route::delete('teams/{teamId}/users/{userId}', [TeamsController::class, 'removeFromTeam']);
 
     // Invitations
     Route::post('invitations/{teamId}', [InvitationsController::class, 'invite']);

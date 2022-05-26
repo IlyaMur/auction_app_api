@@ -55,9 +55,7 @@ class InvitationsController extends Controller
     {
         $invitation = $this->invitations->find($id);
 
-        if (!auth()->user()->isOwnerOfTeam($invitation->team)) {
-            return response()->json(['email' => 'You are not the team owner'], 401);
-        }
+        $this->authorize($invitation);
 
         $recipient = $this->users->findByEmail($invitation->recipient_email);
 
@@ -76,9 +74,7 @@ class InvitationsController extends Controller
 
         $invitation = $this->invitations->find($id);
 
-        if ($invitation->recipient_email !== auth()->user()->email) {
-            return response()->json(['message' => 'This is not your invitation'], 401);
-        }
+        $this->authorize($invitation);
 
         if ($invitation->token !== $request->token) {
             return response()->json(['message' => 'Invalid Token'], 401);
@@ -92,8 +88,14 @@ class InvitationsController extends Controller
         return response()->json(['message' => 'Successful']);
     }
 
-    public function destroy()
+    public function destroy($id)
     {
+        $invitation = $this->invitations->find($id);
+
+        $this->authorize($invitation);
+        $invitation->delete();
+
+        return response()->json(['message' => 'Deleted']);
     }
 
     protected function createInvitation(bool $isUserExists, Team $team, string $email)
