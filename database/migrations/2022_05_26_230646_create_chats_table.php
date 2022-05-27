@@ -17,6 +17,20 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
         });
+
+        Schema::create('participants', function (Blueprint $table) {
+            $table->id();
+
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->foreignId('chat_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->timestamps();
+        });
     }
 
     /**
@@ -27,5 +41,6 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('chats');
+        Schema::dropIfExists('participants');
     }
 };
