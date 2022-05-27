@@ -21,11 +21,11 @@ return new class extends Migration
         Schema::create('participants', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('user_id')
+            $table->bigInteger('user_id')
                 ->constrained()
                 ->cascadeOnDelete();
 
-            $table->foreignId('chat_id')
+            $table->bigInteger('chat_id')
                 ->constrained()
                 ->cascadeOnDelete();
 

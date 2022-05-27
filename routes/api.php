@@ -14,6 +14,7 @@ use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Teams\InvitationsController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Chats\ChatsController;
 
 /**
  * Public routes
@@ -71,11 +72,11 @@ Route::group([
     Route::delete('invitations/{id}', [InvitationsController::class, 'destroy']);
 
     // Chats
-    Route::post('chats', [ChatController::class, 'sendMessage']);
-    Route::get('chats', [ChatController::class, 'getUserChats']);
-    Route::get('chats/{id}/messages', [ChatController::class, 'getChatMessages']);
-    Route::put('chats/{id}/markAsRead', [ChatController::class, 'markAsRead']);
-    Route::delete('messages/{id}', [ChatController::class, 'destroyMessage']);
+    Route::post('chats', [ChatsController::class, 'sendMessage']);
+    Route::get('chats', [ChatsController::class, 'getUserChats']);
+    Route::get('chats/{id}/messages', [ChatsController::class, 'getChatMessages']);
+    Route::put('chats/{id}/markAsRead', [ChatsController::class, 'markAsRead']);
+    Route::delete('messages/{id}', [ChatsController::class, 'destroyMessage']);
 });
 
 /**
