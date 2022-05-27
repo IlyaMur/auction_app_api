@@ -12,6 +12,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use MatanYadaev\EloquentSpatial\Objects\Point;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
@@ -57,9 +59,9 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     /**
      * Get all of the comments for the User
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
@@ -67,9 +69,9 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     /**
      * Get all of the teams for the User
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function teams(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function teams(): BelongsToMany
     {
         return $this->belongsToMany(Team::class)->withTimeStamps();
     }
@@ -77,11 +79,56 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     /**
      * Get all of the invitations for the User
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function invitations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function invitations(): HasMany
     {
         return $this->hasMany(Invitation::class, 'recipient_email', 'email');
+    }
+
+    /**
+     * Get all of the designs for the User
+     *
+     * @return HasMany
+     */
+    public function designs(): HasMany
+    {
+        return $this->hasMany(Design::class);
+    }
+
+    /**
+     * The chats that belong to the User
+     *
+     * @return BelongsToMany
+     */
+    public function chats(): BelongsToMany
+    {
+        return $this->belongsToMany(Chat::class, 'participants');
+    }
+
+    /**
+     * Get all of the messages for the User
+     *
+     * @return HasMany
+     */
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class);
+    }
+
+    /**
+     * Get the chat with specific user
+     *
+     * @param int $userId
+     */
+    public function getChatWithUser($userId)
+    {
+        return $this->chats()
+            ->whereHas(
+                'participants',
+                fn ($query) => $query->where('user_id', $userId)
+            )
+            ->first();
     }
 
     /**
@@ -130,10 +177,5 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function getJWTCustomClaims()
     {
         return [];
-    }
-
-    public function designs()
-    {
-        return $this->hasMany(Design::class);
     }
 }

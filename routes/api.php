@@ -70,7 +70,12 @@ Route::group([
     Route::post('invitations/{id}/respond', [InvitationsController::class, 'respond']);
     Route::delete('invitations/{id}', [InvitationsController::class, 'destroy']);
 
-
+    // Chats
+    Route::post('chats', [ChatController::class, 'sendMessage']);
+    Route::get('chats', [ChatController::class, 'getUserChats']);
+    Route::get('chats/{id}/messages', [ChatController::class, 'getChatMessages']);
+    Route::put('chats/{id}/markAsRead', [ChatController::class, 'markAsRead']);
+    Route::delete('messages/{id}', [ChatController::class, 'destroyMessage']);
 });
 
 /**
