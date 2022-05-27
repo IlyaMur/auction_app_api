@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Chats;
 
+use App\Models\Chat;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ChatResource;
 use App\Http\Resources\MessageResource;
 use App\Repositories\Contracts\ChatInterface;
 use App\Repositories\Contracts\MessageInterface;
+use App\Repositories\Eloquent\Criteria\WithTrashed;
 
 class ChatsController extends Controller
 {
@@ -54,8 +56,15 @@ class ChatsController extends Controller
         );
     }
 
-    public function getChatMessages(Request $request)
+    public function getChatMessages($id)
     {
+        $this->authorize($this->chats->find($id));
+
+        $messages = $this->messages->withCriteria([
+            new WithTrashed()
+        ])->findWhere('chat_id', $id);
+
+        return MessageResource::collection($messages);
     }
 
     public function markAsRead($id)

@@ -72,8 +72,8 @@ Route::group([
     Route::delete('invitations/{id}', [InvitationsController::class, 'destroy']);
 
     // Chats
-    Route::post('chats', [ChatsController::class, 'sendMessage']);
     Route::get('chats', [ChatsController::class, 'getUserChats']);
+    Route::post('chats', [ChatsController::class, 'sendMessage']);
     Route::get('chats/{id}/messages', [ChatsController::class, 'getChatMessages']);
     Route::put('chats/{id}/markAsRead', [ChatsController::class, 'markAsRead']);
     Route::delete('messages/{id}', [ChatsController::class, 'destroyMessage']);
