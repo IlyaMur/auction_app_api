@@ -22,6 +22,17 @@ class Message extends Model
         'last_read'
     ];
 
+    public function getBodyAttribute($value)
+    {
+        if ($this->trashed()) {
+            return auth()->id() === $this->sender->id
+                ? 'You deleted this message'
+                : "{$this->sender->name} deleted this message";
+        }
+
+        return $value;
+    }
+
     /**
      * Get the chat that owns the Message
      *
