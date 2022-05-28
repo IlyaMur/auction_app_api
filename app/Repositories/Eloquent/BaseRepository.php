@@ -46,7 +46,9 @@ abstract class BaseRepository implements BaseRepositoryInterface, CriteriaInterf
 
     public function findWhere($column, $value)
     {
-        return $this->model->where($column, $value)->get();
+        return $this->model
+            ->where($column, $value)
+            ->get();
     }
 
     public function findWhereFirst($column, $value)

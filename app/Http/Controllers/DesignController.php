@@ -111,4 +111,12 @@ class DesignController extends Controller
                 ->findWhereFirst('slug', $slug)
         );
     }
+
+    public function getForTeam($teamId)
+    {
+        return DesignResource::collection(
+            $this->designs->withCriteria(new IsLive())
+                ->findWhere('team_id', $teamId)
+        );
+    }
 }

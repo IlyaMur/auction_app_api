@@ -198,8 +198,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         $lat2 = request()->latitude;
 
         $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2))
-            + cos(deg2rad($lat1))
-            * cos(deg2rad($lat2))
+            + cos(deg2rad($lat1)) * cos(deg2rad($lat2))
             * cos(deg2rad($lon1 - $lon2));
 
         $miles = rad2deg(acos($dist)) * 60 * 1.1515;
