@@ -184,4 +184,28 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     {
         return new SpatialBuilder($query);
     }
+
+    function calcDistanceBetweenUsers($unit = 'km')
+    {
+        if (is_null($this->location)) {
+            return 'User has no data';
+        }
+
+        $lon1 = $this->location->longitude;
+        $lon2 = request()->longitude;
+
+        $lat1 = $this->location->latitude;
+        $lat2 = request()->latitude;
+
+        $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2))
+            + cos(deg2rad($lat1))
+            * cos(deg2rad($lat2))
+            * cos(deg2rad($lon1 - $lon2));
+
+        $miles = rad2deg(acos($dist)) * 60 * 1.1515;
+
+        return $unit == "km"
+            ? round($miles * 1.609344, 2) . ' km'
+            : round($miles) . ' m';
+    }
 }

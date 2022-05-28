@@ -20,6 +20,9 @@ class UserResource extends JsonResource
             $this->mergeWhen(auth()->id() === $this->id, [
                 'email' => $this->email,
             ]),
+            $this->mergeWhen(request()->has(['latitude', 'longitude', 'distance']), [
+                'distance' => $this->calcDistanceBetweenUsers(request()->unit)
+            ]),
             'name' => $this->name,
             'create_dates' => [
                 'created_at_human' => $this->created_at->diffForHumans(),
