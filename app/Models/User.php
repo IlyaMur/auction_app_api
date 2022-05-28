@@ -10,9 +10,10 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use MatanYadaev\EloquentSpatial\Objects\Point;
+use MatanYadaev\EloquentSpatial\SpatialBuilder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable implements JWTSubject, MustVerifyEmail
@@ -177,5 +178,10 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function newEloquentBuilder($query): SpatialBuilder
+    {
+        return new SpatialBuilder($query);
     }
 }

@@ -31,6 +31,7 @@ Route::get('teams/slug/{slug}', [TeamsController::class, 'findBySlug']);
 
 // Search Designs
 Route::get('search/designs', [DesignController::class, 'search']);
+Route::get('search/designers', [UserController::class, 'search']);
 
 /**
  * Routes for auth users only
