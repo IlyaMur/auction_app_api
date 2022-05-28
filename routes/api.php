@@ -24,6 +24,7 @@ Route::get('me', [MeController::class, 'getMe']);
 
 Route::get('designs', [DesignController::class, 'index']);
 Route::get('designs/{id}', [DesignController::class, 'findDesign']);
+Route::get('designs/slug/{slug}', [DesignController::class, 'findBySlug']);
 
 Route::get('users', [UserController::class, 'index']);
 

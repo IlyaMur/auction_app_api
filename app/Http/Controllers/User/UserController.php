@@ -30,6 +30,7 @@ class UserController extends Controller
             'latitude' => ['numeric', 'min:-180', 'max:180'],
         ]);
 
+
         $designers = $this->users->search($request);
 
         return UserResource::collection($designers);

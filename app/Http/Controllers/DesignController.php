@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Resources\DesignResource;
 use Illuminate\Support\Facades\Storage;
+use App\Repositories\Eloquent\Criteria\IsLive;
 use App\Repositories\Contracts\DesignInterface;
 use App\Repositories\Eloquent\Criteria\EagerLoad;
 use App\Repositories\Eloquent\Criteria\LatestFirst;
@@ -100,6 +101,14 @@ class DesignController extends Controller
     {
         return DesignResource::collection(
             $this->designs->search($request)
+        );
+    }
+
+    public function findBySlug($slug)
+    {
+        return new DesignResource(
+            $this->designs->withCriteria(new IsLive())
+                ->findWhereFirst('slug', $slug)
         );
     }
 }
