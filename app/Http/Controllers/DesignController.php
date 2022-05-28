@@ -107,7 +107,8 @@ class DesignController extends Controller
     public function findBySlug($slug)
     {
         return new DesignResource(
-            $this->designs->withCriteria(new IsLive())
+            $this->designs
+                ->withCriteria(new IsLive())
                 ->findWhereFirst('slug', $slug)
         );
     }
@@ -115,8 +116,18 @@ class DesignController extends Controller
     public function getForTeam($teamId)
     {
         return DesignResource::collection(
-            $this->designs->withCriteria(new IsLive())
+            $this->designs
+                ->withCriteria(new IsLive())
                 ->findWhere('team_id', $teamId)
+        );
+    }
+
+    public function getForUser($userId)
+    {
+        return DesignResource::collection(
+            $this->designs
+                ->withCriteria(new IsLive(), new EagerLoad())
+                ->findWhere('user_id', $userId)
         );
     }
 }
