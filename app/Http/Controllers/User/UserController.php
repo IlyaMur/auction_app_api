@@ -25,6 +25,11 @@ class UserController extends Controller
 
     public function search(Request $request)
     {
+        $request->validate([
+            'longitude' => ['numeric', 'min:-90', 'max: 90'],
+            'latitude' => ['numeric', 'min:-180', 'max:180'],
+        ]);
+
         $designers = $this->users->search($request);
 
         return UserResource::collection($designers);
