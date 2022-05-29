@@ -48,6 +48,15 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     ];
 
     /**
+     *
+     * @var array<int, string>
+     */
+    protected $appends = [
+        'photo_url',
+    ];
+
+
+    /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
@@ -206,5 +215,11 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         return $unit === "km"
             ? round($miles * 1.609344, 2) . ' km'
             : round($miles) . ' m';
+    }
+
+    public function getPhotoUrlAttribute()
+    {
+        return 'https://www.gravatar.com/avatar/'
+            . md5(strtolower($this->email)) . 'jpg?s=200&d=mm';
     }
 }

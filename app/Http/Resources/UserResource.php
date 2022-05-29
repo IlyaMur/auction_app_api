@@ -24,6 +24,7 @@ class UserResource extends JsonResource
                 'distance' => $this->calcDistanceBetweenUsers(request()->unit)
             ]),
             'name' => $this->name,
+            'photo_url' => $this->photo_url,
             'create_dates' => [
                 'created_at_human' => $this->created_at->diffForHumans(),
                 'created_at' => $this->created_at,
