@@ -23,6 +23,7 @@ use App\Http\Controllers\Chats\ChatsController;
 // Get current auth user
 Route::get('me', [MeController::class, 'getMe']);
 
+// Search designs
 Route::controller(DesignController::class)->group(function () {
     Route::get('designs', 'index');
     Route::get('designs/{id}', 'findDesign');
@@ -32,6 +33,7 @@ Route::controller(DesignController::class)->group(function () {
     Route::get('search/designs', 'search');
 });
 
+// Search users (designers)
 Route::controller(UserController::class)->group(function () {
     Route::get('users', 'index');
     Route::get('user/{username}', 'findByUsername');
@@ -44,9 +46,7 @@ Route::get('teams/slug/{slug}', [TeamsController::class, 'findBySlug']);
  * Routes for auth users only
  */
 
-Route::group([
-    'middleware' => ['auth:api'],
-], function () {
+Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', [LoginController::class, 'logout']);
 
     // User's settings
@@ -106,9 +106,7 @@ Route::group([
  * Routes for guests
  */
 
-Route::group([
-    'middleware' => ['guest:api'],
-], function () {
+Route::group(['middleware' => 'guest:api'], function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [LoginController::class, 'login']);
 
