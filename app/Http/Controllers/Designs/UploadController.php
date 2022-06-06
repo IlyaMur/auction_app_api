@@ -16,6 +16,7 @@ class UploadController extends Controller
         ]);
 
         $image = $request->file('image');
+
         $imagePath = $image->getPathName();
 
         $filename = time() . '_'

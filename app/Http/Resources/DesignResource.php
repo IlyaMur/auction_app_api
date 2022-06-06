@@ -30,7 +30,7 @@ class DesignResource extends JsonResource
             'is_live' => $this->is_live,
             'description' => $this->description,
             'tag_list' => [
-                'tag' => $this->tagArray,
+                'tags' => $this->tagArray,
                 'normalized' => $this->tagArrayNormalized,
             ],
             'created_at_dates' => [

@@ -7,14 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Verified;
-use App\Providers\RouteServiceProvider;
 use App\Repositories\Contracts\UserInterface;
 
 class VerificationController extends Controller
 {
-
-    // use VerifiesEmails;
-
     public function __construct(protected UserInterface $users)
     {
         $this->middleware('throttle:6,1')->only('verify', 'resend');
@@ -47,7 +43,7 @@ class VerificationController extends Controller
         $user->markEmailAsVerified();
         event(new Verified($user));
 
-        return response()->json(['message' => 'Email successfully verified'], 200);
+        return response()->json(['message' => 'Email successfully verified']);
     }
 
     public function resend(Request $request)

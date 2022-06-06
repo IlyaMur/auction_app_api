@@ -36,8 +36,10 @@ class LoginController extends Controller
     {
         $this->clearLoginAttempts($request);
 
-        $token = (string) $this->guard()->getToken();
+        // get the token from the authentication guard (JWT)
+        $token = (string)$this->guard()->getToken();
 
+        // extract the expiry date of the token
         $expiration = $this->guard()->getPayload()->get('exp');
 
         return response()->json([
@@ -52,8 +54,9 @@ class LoginController extends Controller
         $user = $this->guard()->user();
 
         if ($user instanceof MustVerifyEmail && !$user->hasVerifiedEmail()) {
-            return response()->json(['errors' => [
-                'verification' => 'You need to verify your email account'
+            return response()->json(
+                ['errors' => [
+                'message' => 'You need to verify your email account'
             ]], 422);
         }
 
