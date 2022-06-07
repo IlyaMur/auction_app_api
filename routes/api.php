@@ -69,6 +69,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::controller(DesignController::class)->group(function () {
         Route::post('designs/{id}/like', 'like');
         Route::get('designs/{id}/liked', 'checkIfUserHasLiked');
+        Route::get('designs/{id}/byUser', 'userOwnsDesign');
         Route::put('designs/{design}', 'update');
         Route::delete('designs/{design}', 'destroy');
     });

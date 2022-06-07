@@ -8,6 +8,7 @@ use App\Http\Resources\DesignResource;
 use Illuminate\Support\Facades\Storage;
 use App\Repositories\Eloquent\Criteria\IsLive;
 use App\Repositories\Contracts\DesignInterface;
+use App\Repositories\Eloquent\Criteria\ForUser;
 use App\Repositories\Eloquent\Criteria\EagerLoad;
 use App\Repositories\Eloquent\Criteria\LatestFirst;
 
@@ -129,5 +130,14 @@ class DesignController extends Controller
                 ->withCriteria(new IsLive(), new EagerLoad())
                 ->findWhere('user_id', $userId)
         );
+    }
+
+    public function userOwnsDesign($id)
+    {
+        $design = $this->designs
+            ->withCriteria(new ForUser(auth()->id()))
+            ->findWhereFirst('id', $id);
+
+        return new DesignResource($design);
     }
 }
