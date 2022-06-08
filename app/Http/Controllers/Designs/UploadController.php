@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Designs;
 use App\Jobs\UploadImage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DesignResource;
 use Illuminate\Support\Facades\Storage;
 
 class UploadController extends Controller
@@ -17,12 +18,10 @@ class UploadController extends Controller
 
         $image = $request->file('image');
 
-        $imagePath = $image->getPathName();
-
         $filename = time() . '_'
             . str_replace(' ', '_', strtolower($image->getClientOriginalName()));
 
-        $tmp = $image->storeAs('uploads/original', $filename, 'temp');
+       $image->storeAs('uploads/original', $filename, 'temp');
 
         $design = auth()->user()
             ->designs()
@@ -32,9 +31,8 @@ class UploadController extends Controller
             ]);
 
         // dispatch a job to handle the image manipulation
-
         $this->dispatch(new UploadImage($design));
 
-        return response()->json($design);
+        return new DesignResource($design);
     }
 }

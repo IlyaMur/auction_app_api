@@ -123,3 +123,4 @@ Route::group(['middleware' => 'guest:api'], function () {
     Route::post('password/reset', [ResetPasswordController::class, 'reset'])
         ->name('password.reset');
 });
+

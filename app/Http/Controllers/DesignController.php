@@ -39,7 +39,7 @@ class DesignController extends Controller
         $this->validate($request, [
             'title' => ['required', "unique:designs,title,{$design->id}"],
             'description' => ['required', 'string', 'min:20', 'max:140'],
-            'tags' => ['required'],
+            // 'tags' => ['required'],
             'team' => ['required_if:assign_to_team,true']
         ]);
 
@@ -127,7 +127,7 @@ class DesignController extends Controller
     {
         return DesignResource::collection(
             $this->designs
-                ->withCriteria(new IsLive(), new EagerLoad())
+                ->withCriteria(new EagerLoad())
                 ->findWhere('user_id', $userId)
         );
     }
