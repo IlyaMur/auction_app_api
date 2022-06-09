@@ -24,6 +24,7 @@ class DesignResource extends JsonResource
                 $this->whenLoaded('comments')
             ),
             'likes_count' => $this->likes()->count(),
+            'comments_count' => $this->comments()->count(),
             'title' => $this->title,
             'slug' => $this->slug,
             'images' => $this->images,

@@ -44,7 +44,9 @@ class DesignRepository extends BaseRepository implements DesignInterface
 
     public function search(Request $request)
     {
-        $query = (new $this->model)->newQuery();
+        $query = (new $this->model)
+            ->newQuery()
+            ->with('user');
         $query->where('is_live', true);
 
         // return only designs with comments
