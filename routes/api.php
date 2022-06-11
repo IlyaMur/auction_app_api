@@ -29,6 +29,7 @@ Route::controller(DesignController::class)->group(function () {
     Route::get('designs/{id}', 'findDesign');
     Route::get('designs/slug/{slug}', 'findBySlug');
     Route::get('users/{id}/designs', 'getForUser');
+    Route::get('users/{id}/designs/preview', 'getForPreview');
     Route::get('teams/{id}/designs', 'getForTeam');
     Route::get('search/designs', 'search');
 });
@@ -48,6 +49,7 @@ Route::get('teams/slug/{slug}', [TeamsController::class, 'findBySlug']);
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', [LoginController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
 
     // User's settings
     Route::controller(SettingsController::class)->group(function () {

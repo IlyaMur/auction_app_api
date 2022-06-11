@@ -39,7 +39,6 @@ class DesignController extends Controller
         $this->validate($request, [
             'title' => ['required', "unique:designs,title,{$design->id}"],
             'description' => ['required', 'string', 'min:20', 'max:140'],
-            // 'tags' => ['required'],
             'team' => ['required_if:assign_to_team,true']
         ]);
 
@@ -86,9 +85,9 @@ class DesignController extends Controller
 
     public function like($id)
     {
-        $this->designs->like($id);
+        $totalLikes = $this->designs->like($id);
 
-        return response()->json(['message' => "Successful"]);
+        return response()->json(['message' => "Successful", "total" => $totalLikes]);
     }
 
     public function checkIfUserHasLiked($id)
@@ -109,7 +108,7 @@ class DesignController extends Controller
     {
         return new DesignResource(
             $this->designs
-                ->withCriteria(new IsLive())
+                ->withCriteria(new IsLive(), new EagerLoad('comments', 'user'))
                 ->findWhereFirst('slug', $slug)
         );
     }
@@ -129,6 +128,15 @@ class DesignController extends Controller
             $this->designs
                 ->withCriteria(new EagerLoad())
                 ->findWhere('user_id', $userId)
+        );
+    }
+
+    public function getForPreview($userId)
+    {
+        return DesignResource::collection(
+            $this->designs
+                ->withCriteria(new EagerLoad(), new IsLive())
+                ->findWhere('user_id', $userId, 4)
         );
     }
 

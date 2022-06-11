@@ -33,6 +33,8 @@ class DesignRepository extends BaseRepository implements DesignInterface
         $design->islikedByUser(auth()->id())
             ? $design->unlike()
             : $design->like();
+
+        return $design->likes->count();
     }
 
     public function isLikedByUser($id)
@@ -44,9 +46,7 @@ class DesignRepository extends BaseRepository implements DesignInterface
 
     public function search(Request $request)
     {
-        $query = (new $this->model)
-            ->newQuery()
-            ->with('user');
+        $query = (new $this->model)->newQuery()->with('user');
         $query->where('is_live', true);
 
         // return only designs with comments
