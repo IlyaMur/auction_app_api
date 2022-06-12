@@ -14,7 +14,9 @@
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.4",
+        "mailjet/laravel-mailjet": "^3.0",
         "matanyadaev/laravel-eloquent-spatial": "^1.0",
+        "symfony/http-client": "^6.1",
         "tymon/jwt-auth": "dev-develop"
     },
     "require-dev": {

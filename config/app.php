@@ -161,6 +161,7 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
+        Mailjet\LaravelMailjet\MailjetServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
@@ -212,6 +213,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+        'Mailjet' => Mailjet\LaravelMailjet\Facades\Mailjet::class,
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
         'Image' => Intervention\Image\Facades\Image::class

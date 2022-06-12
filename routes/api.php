@@ -22,6 +22,7 @@ use App\Http\Controllers\Chats\ChatsController;
 
 // Get current auth user
 Route::get('me', [MeController::class, 'getMe']);
+Route::post('refresh', [AuthController::class, 'refresh']);
 
 // Search designs
 Route::controller(DesignController::class)->group(function () {
@@ -49,7 +50,6 @@ Route::get('teams/slug/{slug}', [TeamsController::class, 'findBySlug']);
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', [LoginController::class, 'logout']);
-    Route::post('refresh', [AuthController::class, 'refresh']);
 
     // User's settings
     Route::controller(SettingsController::class)->group(function () {
@@ -125,4 +125,3 @@ Route::group(['middleware' => 'guest:api'], function () {
     Route::post('password/reset', [ResetPasswordController::class, 'reset'])
         ->name('password.reset');
 });
-
