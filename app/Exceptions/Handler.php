@@ -84,15 +84,15 @@ class Handler extends ExceptionHandler
             }
         });
 
-        $this->renderable(function (HttpTransportException $e, Request $request) {
-            if ($request->expectsJson()) {
-                return response()->json([
-                    'errors' => [
-                        'message' =>
-                            'Incorrect email address'
-                    ]
-                ], 422);
-            }
-        });
+        // $this->renderable(function (HttpTransportException $e, Request $request) {
+        //     if ($request->expectsJson()) {
+        //         return response()->json([
+        //             'errors' => [
+        //                 'message' =>
+        //                     'Incorrect email address'
+        //             ]
+        //         ], 422);
+        //     }
+        // });
     }
 }
