@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Exceptions\ModelNotDefined;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\Mailer\Exception\HttpTransportException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -80,6 +81,17 @@ class Handler extends ExceptionHandler
                             'No model defined'
                     ]
                 ], 500);
+            }
+        });
+
+        $this->renderable(function (HttpTransportException $e, Request $request) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'errors' => [
+                        'message' =>
+                            'Incorrect email address'
+                    ]
+                ], 422);
             }
         });
     }
