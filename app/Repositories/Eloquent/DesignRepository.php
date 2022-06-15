@@ -71,6 +71,8 @@ class DesignRepository extends BaseRepository implements DesignInterface
         if ($request->orderBy === 'likes') {
             $query->withCount('likes')
                 ->orderByDesc('likes_count');
+        } elseif ($request->orderBy === 'popular') {
+            $query->orderByDesc('views');
         } else {
             $query->latest();
         }
