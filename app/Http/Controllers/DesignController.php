@@ -106,11 +106,12 @@ class DesignController extends Controller
 
     public function findBySlug($slug)
     {
-        return new DesignResource(
-            $this->designs
-                ->withCriteria(new IsLive(), new EagerLoad('comments', 'user'))
-                ->findWhereFirst('slug', $slug)
-        );
+        $design = $this->designs
+            ->withCriteria(new IsLive(), new EagerLoad('comments', 'user'))
+            ->findWhereFirst('slug', $slug)
+            ->addView();
+
+        return new DesignResource($design);
     }
 
     public function getForTeam($teamId)

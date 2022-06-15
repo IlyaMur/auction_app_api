@@ -71,4 +71,12 @@ class Design extends Model
         return 'http://' . Storage::disk($this->disk)
             ->url("uploads/designs/{$size}/{$this->image}");
     }
+
+    public function addView()
+    {
+        $this->views++;
+        $this->save();
+
+        return $this;
+    }
 }

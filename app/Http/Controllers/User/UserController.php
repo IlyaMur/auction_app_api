@@ -32,13 +32,15 @@ class UserController extends Controller
 
         return UserResource::collection(
             $this->users->search($request)
-    );
+        );
     }
 
     public function findByUsername($username)
     {
         return new UserResource(
-            $this->users->findWhereFirst('username', $username)
+            $this->users
+                ->withCriteria(new EagerLoad(['designs']))
+                ->findWhereFirst('username', $username)
         );
     }
 }
