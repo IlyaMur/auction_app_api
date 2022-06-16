@@ -11,4 +11,5 @@ interface DesignInterface
     public function like($id);
     public function isLikedByUser($id);
     public function search(Request $request);
+    public function findByTag($tag);
 }

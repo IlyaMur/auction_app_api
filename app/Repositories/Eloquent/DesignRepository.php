@@ -77,6 +77,12 @@ class DesignRepository extends BaseRepository implements DesignInterface
             $query->latest();
         }
 
-        return $query->get();
+        return $query;
+    }
+
+    public function findByTag($tag)
+    {
+        return $this->model
+            ->withAllTags($tag);
     }
 }

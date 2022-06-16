@@ -29,6 +29,7 @@ Route::controller(DesignController::class)->group(function () {
     Route::get('designs', 'index');
     Route::get('designs/{id}', 'findDesign');
     Route::get('designs/slug/{slug}', 'findBySlug');
+    Route::get('designs/tag/{tag}', 'findByTag');
     Route::get('users/{id}/designs', 'getForUser');
     Route::get('users/{id}/designs/preview', 'getForPreview');
     Route::get('teams/{id}/designs', 'getForTeam');

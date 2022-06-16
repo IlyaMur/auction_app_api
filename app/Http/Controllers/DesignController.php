@@ -99,9 +99,12 @@ class DesignController extends Controller
 
     public function search(Request $request)
     {
-        return DesignResource::collection(
-            $this->designs->search($request)
-        );
+        $designs = $this->designs
+            ->search($request)
+            ->paginate(12)
+            ->withQueryString();
+
+        return DesignResource::collection($designs);
     }
 
     public function findBySlug($slug)
@@ -112,6 +115,16 @@ class DesignController extends Controller
             ->addView();
 
         return new DesignResource($design);
+    }
+
+    public function findByTag($tag)
+    {
+        $designs = $this->designs
+            ->withCriteria(new IsLive(), new EagerLoad('comments', 'user'))
+            ->findByTag($tag)
+            ->paginate(12);
+
+        return DesignResource::collection($designs);
     }
 
     public function getForTeam($teamId)
