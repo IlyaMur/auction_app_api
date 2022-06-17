@@ -31,7 +31,7 @@ class UserController extends Controller
         ]);
 
         return UserResource::collection(
-            $this->users->search($request)
+            $this->users->search($request)->paginate(1)
         );
     }
 

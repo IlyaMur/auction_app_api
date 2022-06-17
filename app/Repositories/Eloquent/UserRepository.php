@@ -60,6 +60,6 @@ class UserRepository extends BaseRepository implements UserInterface
             $query->oldest();
         }
 
-        return $query->get();
+        return $query->with(['designs' => fn ($q) => $q->limit(4)]);
     }
 }

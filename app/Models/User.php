@@ -213,8 +213,8 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         $miles = rad2deg(acos($dist)) * 60 * 1.1515;
 
         return $unit === "km"
-            ? round($miles * 1.609344, 2) . ' km'
-            : round($miles) . ' m';
+            ? round($miles * 1.609344, 2) . ' км'
+            : round($miles) . ' миль';
     }
 
     public function getPhotoUrlAttribute()
